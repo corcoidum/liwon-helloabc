@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { AppData } from '../types'
 import { letterInfo } from '../data/letters'
-import { speakEnglish, speakKorean } from '../services/speech'
+import { speakEnglish, speakKorean, ttsSupported } from '../services/speech'
 import { IconButton, Praise } from '../components/ui'
 
 /** Hear → Touch: play a letter's name and sound, child taps the right card. */
@@ -51,6 +51,13 @@ export function ListenChoose(props: {
   return (
     <div className="screen" data-testid="listen-choose" data-answer={answer}>
       <p className="hint-line">👂 소리를 듣고 글자를 찾아요</p>
+      {!ttsSupported() && (
+        // No speech engine at all: fall back to same-letter matching
+        <div className="letter-hero" data-testid="visual-hint">
+          <span>{answer}</span>
+          <span className="lower">{answer.toLowerCase()}</span>
+        </div>
+      )}
       <div className="button-row">
         <IconButton
           icon="🔊"
