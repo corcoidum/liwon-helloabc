@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  // GitHub Pages serves the app under /liwon-helloabc/ (set via env in CI);
+  // local dev and preview keep the root path.
+  base: process.env.VITE_BASE ?? '/',
   plugins: [
     react(),
     VitePWA({
