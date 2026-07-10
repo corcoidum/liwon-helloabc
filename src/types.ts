@@ -1,4 +1,6 @@
 export interface WordItem {
+  /** Stable id used for audio file names, e.g. 'ice-cream' */
+  id: string
   word: string
   emoji: string
   /** Uppercase first letter, e.g. 'A' */
@@ -23,11 +25,24 @@ export interface LetterInfo {
   soundText: string
 }
 
+export interface ChantLine {
+  text: string
+  /** Audio clip ids played in sequence for this line */
+  audio: string[]
+}
+
 export interface Chant {
   id: string
   title: string
-  /** Short original lines spoken in sequence; total under 20 seconds */
-  lines: string[]
+  /** Short original lines; total under 20 seconds */
+  lines: ChantLine[]
+}
+
+export interface Phrase {
+  id: string
+  text: string
+  ko: string
+  emoji: string
 }
 
 export interface LetterProgress {
@@ -66,5 +81,6 @@ export type LessonStep =
   | { type: 'match'; letters: string[] }
   | { type: 'sort'; letters: string[] }
   | { type: 'speak'; letter: string }
+  | { type: 'phrase'; phraseId: string }
   | { type: 'chant'; chantId: string }
   | { type: 'end' }

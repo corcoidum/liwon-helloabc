@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { wordsForLetter } from '../data/words'
 import { shuffle } from '../services/session'
-import { speakEnglish, speakKorean } from '../services/speech'
+import { sayKo, sayWord } from '../services/sound'
+import { letterStyle } from '../utils/colors'
 import { Praise } from '../components/ui'
 import type { WordItem } from '../types'
 
@@ -26,7 +27,7 @@ export function SortGame(props: {
   const finished = index >= items.length
 
   useEffect(() => {
-    if (current) void speakEnglish(current.word)
+    if (current) void sayWord(current)
   }, [current])
 
   const pick = (letter: string) => {
@@ -35,11 +36,11 @@ export function SortGame(props: {
     props.onAnswer?.(current.letter, correct)
     if (correct) {
       setHint(null)
-      void speakKorean('맞았어요!')
+      void sayKo('correct')
       setIndex((i) => i + 1)
     } else {
       setHint('괜찮아요, 첫소리를 다시 들어봐요')
-      void speakEnglish(current.word)
+      void sayWord(current)
     }
   }
 
@@ -47,11 +48,7 @@ export function SortGame(props: {
     <div className="screen" data-testid="sort-game">
       <p className="hint-line">🧺 첫소리에 맞는 글자 바구니를 눌러요</p>
       {!finished && current && (
-        <button
-          type="button"
-          className="word-card"
-          onClick={() => void speakEnglish(current.word)}
-        >
+        <button type="button" className="word-card" onClick={() => void sayWord(current)}>
           <span className="word-emoji" aria-hidden>
             {current.emoji}
           </span>
@@ -66,6 +63,7 @@ export function SortGame(props: {
               type="button"
               className="bucket"
               data-bucket={letter}
+              style={letterStyle(letter)}
               onClick={() => pick(letter)}
             >
               {letter}

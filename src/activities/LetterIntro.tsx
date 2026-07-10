@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import { letterInfo } from '../data/letters'
 import { mainWord } from '../data/words'
-import { speakEnglish, speakKorean } from '../services/speech'
+import { sayKo, sayLetterName, sayLetterSound, sayWord } from '../services/sound'
+import { letterStyle } from '../utils/colors'
 import { IconButton } from '../components/ui'
 
 /** See → Hear: show the letter pair, its name, its sound, and a word. */
@@ -10,13 +10,12 @@ export function LetterIntro(props: {
   onReplay: () => void
   onNext: () => void
 }) {
-  const info = letterInfo(props.letter)
   const word = mainWord(props.letter)
 
   const sayAll = async () => {
-    await speakEnglish(props.letter)
-    await speakEnglish(info.soundText)
-    await speakEnglish(word.word)
+    await sayLetterName(props.letter)
+    await sayLetterSound(props.letter)
+    await sayWord(word)
   }
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export function LetterIntro(props: {
 
   return (
     <div className="screen" data-testid="letter-intro" data-letter={props.letter}>
-      <div className="letter-hero">
+      <div className="letter-hero float-gently" style={letterStyle(props.letter)}>
         <span>{props.letter}</span>
         <span className="lower">{props.letter.toLowerCase()}</span>
       </div>
@@ -36,7 +35,7 @@ export function LetterIntro(props: {
         data-testid="intro-word"
         onClick={() => {
           props.onReplay()
-          void speakEnglish(word.word)
+          void sayWord(word)
         }}
       >
         <span className="word-emoji" aria-hidden>
@@ -62,7 +61,7 @@ export function LetterIntro(props: {
           className="action-button"
           data-testid="intro-next"
           onClick={() => {
-            void speakKorean('잘했어요!')
+            void sayKo('good-job')
             props.onNext()
           }}
         >

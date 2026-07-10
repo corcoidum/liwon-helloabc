@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { AppData } from '../types'
-import { letterInfo } from '../data/letters'
-import { speakEnglish, speakKorean, ttsSupported } from '../services/speech'
+import { sayKo, sayLetterName, sayLetterSound, soundAvailable } from '../services/sound'
+import { letterStyle } from '../utils/colors'
 import { IconButton, Praise } from '../components/ui'
 
 /** Hear → Touch: play a letter's name and sound, child taps the right card. */
@@ -23,8 +23,8 @@ export function ListenChoose(props: {
   const [hint, setHint] = useState<string | null>(null)
 
   const playPrompt = async () => {
-    await speakEnglish(answer)
-    await speakEnglish(letterInfo(answer).soundText)
+    await sayLetterName(answer)
+    await sayLetterSound(answer)
   }
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export function ListenChoose(props: {
       setSolved(true)
       setHint(null)
       props.onAnswer(true)
-      void speakKorean('딩동댕! 잘 찾았어요')
+      void sayKo('found-it')
     } else {
       setHint('괜찮아요, 한 번 더 들어볼까요?')
       props.onAnswer(false)
@@ -51,9 +51,9 @@ export function ListenChoose(props: {
   return (
     <div className="screen" data-testid="listen-choose" data-answer={answer}>
       <p className="hint-line">👂 소리를 듣고 글자를 찾아요</p>
-      {!ttsSupported() && (
-        // No speech engine at all: fall back to same-letter matching
-        <div className="letter-hero" data-testid="visual-hint">
+      {!soundAvailable() && (
+        // No audio at all: fall back to same-letter matching
+        <div className="letter-hero" data-testid="visual-hint" style={letterStyle(answer)}>
           <span>{answer}</span>
           <span className="lower">{answer.toLowerCase()}</span>
         </div>
@@ -76,6 +76,7 @@ export function ListenChoose(props: {
             type="button"
             className={`choice-card ${solved && letter === answer ? 'correct' : ''}`}
             data-letter={letter}
+            style={letterStyle(letter)}
             onClick={() => choose(letter)}
           >
             {letter}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { speakKorean } from '../services/speech'
+import { sayKo } from '../services/sound'
 import { Praise } from '../components/ui'
 
 const SIZE = 320
@@ -177,7 +177,7 @@ export function TraceBoard(props: {
           data-testid="trace-done"
           disabled={!drew}
           onClick={() => {
-            void speakKorean(passed ? '멋지게 썼어요!' : '잘 해봤어요!')
+            void sayKo(passed ? 'nice-writing' : 'good-try')
             props.onDone(passed)
           }}
         >

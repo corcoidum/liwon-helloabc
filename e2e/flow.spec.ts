@@ -71,10 +71,13 @@ test('first daily lesson end-to-end with persistence and parent view', async ({ 
   }
   await page.getByTestId('match-next').click()
 
-  // Speaking (fallback-friendly) and chant
+  // Speaking (fallback-friendly), expression of the day, and chant
   await expect(page.getByTestId('speak-along')).toBeVisible()
   await page.getByTestId('speak-word').click()
   await page.getByTestId('speak-next').click()
+  await expect(page.getByTestId('phrase-play')).toBeVisible()
+  await page.getByTestId('phrase-word').click()
+  await page.getByTestId('phrase-next').click()
   await expect(page.getByTestId('chant-play')).toBeVisible()
   await page.getByTestId('chant-next').click()
 
@@ -98,6 +101,7 @@ test('first daily lesson end-to-end with persistence and parent view', async ({ 
 
   // Parent area via long press
   const hold = page.getByTestId('parent-hold')
+  await hold.scrollIntoViewIfNeeded()
   const box = await hold.boundingBox()
   if (!box) throw new Error('parent hold button not visible')
   await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)

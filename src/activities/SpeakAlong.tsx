@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react'
 import { mainWord } from '../data/words'
-import {
-  listenOnce,
-  speakEnglish,
-  speakKorean,
-  speechRecognitionSupported,
-} from '../services/speech'
+import { sayKo, sayWord } from '../services/sound'
+import { listenOnce, speechRecognitionSupported } from '../services/speech'
 import { IconButton, Praise } from '../components/ui'
 
 /**
@@ -24,14 +20,15 @@ export function SpeakAlong(props: {
   const [praise, setPraise] = useState<string | null>(null)
 
   useEffect(() => {
-    void speakEnglish(word.word)
-  }, [word.word])
+    void sayWord(word)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [word.id])
 
   const tryListen = async () => {
     if (listening) return
     setListening(true)
     setPraise(null)
-    void speakKorean('따라 말해 보세요')
+    void sayKo('repeat-after')
     const result = await listenOnce()
     setListening(false)
     // Trying is what counts — every outcome gets a warm response.
@@ -46,7 +43,7 @@ export function SpeakAlong(props: {
         type="button"
         className="word-card"
         data-testid="speak-word"
-        onClick={() => void speakEnglish(word.word)}
+        onClick={() => void sayWord(word)}
       >
         <span className="word-emoji" aria-hidden>
           {word.emoji}
@@ -54,7 +51,7 @@ export function SpeakAlong(props: {
         <span>{word.word}</span>
       </button>
       <div className="button-row">
-        <IconButton icon="🔊" label="다시 듣기" onClick={() => void speakEnglish(word.word)} />
+        <IconButton icon="🔊" label="다시 듣기" onClick={() => void sayWord(word)} />
         {canListen && (
           <IconButton
             icon={listening ? '👂' : '🎤'}
@@ -72,7 +69,7 @@ export function SpeakAlong(props: {
           className="action-button"
           data-testid="speak-next"
           onClick={() => {
-            void speakKorean('참 잘했어요!')
+            void sayKo('great')
             props.onNext()
           }}
         >

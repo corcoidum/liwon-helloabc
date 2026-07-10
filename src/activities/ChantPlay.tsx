@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { chantById } from '../data/chants'
-import { speakEnglish, stopSpeaking } from '../services/speech'
+import { sayLine, stopAll } from '../services/sound'
 import { Praise } from '../components/ui'
 
 /** Rhythm: a short original chant, each line highlighted as it plays. */
@@ -14,8 +14,9 @@ export function ChantPlay(props: { chantId: string; onNext: () => void }) {
     if (playingRef.current) return
     playingRef.current = true
     for (let i = 0; i < chant.lines.length; i++) {
+      if (!playingRef.current) return
       setActiveLine(i)
-      await speakEnglish(chant.lines[i])
+      await sayLine(chant.lines[i])
     }
     setActiveLine(-1)
     setPlayed(true)
@@ -26,7 +27,7 @@ export function ChantPlay(props: { chantId: string; onNext: () => void }) {
     void play()
     return () => {
       playingRef.current = false
-      stopSpeaking()
+      stopAll()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.chantId])
@@ -36,7 +37,7 @@ export function ChantPlay(props: { chantId: string; onNext: () => void }) {
       <p className="hint-line">🎵 {chant.title} — 함께 말해 봐요</p>
       {chant.lines.map((line, i) => (
         <p key={i} className={`chant-line ${i === activeLine ? 'active' : ''}`}>
-          {line}
+          {line.text}
         </p>
       ))}
       {played && <Praise text="🎉 신나게 했어요!" />}

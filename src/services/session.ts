@@ -1,6 +1,7 @@
 import type { AppData, LessonStep } from '../types'
 import { ALPHABET } from '../data/letters'
 import { chantForLetters } from '../data/chants'
+import { PHRASES } from '../data/phrases'
 import { reviewQueue } from './review'
 
 export const MAX_NEW_LETTERS_PER_SESSION = 2
@@ -44,6 +45,9 @@ export function buildSession(data: AppData, now = Date.now()): LessonStep[] {
   }
 
   if (known.length > 0) steps.push({ type: 'speak', letter: known[0] })
+  // One short everyday expression per session, rotating with progress
+  const phrase = PHRASES[introducedLetters(data).length % PHRASES.length]
+  steps.push({ type: 'phrase', phraseId: phrase.id })
   steps.push({ type: 'chant', chantId: chantForLetters(known).id })
   steps.push({ type: 'end' })
   return steps

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "abc-hello",
+    "title": "A B C 인사",
+    "lines": [
+      { "text": "A, B, C!", "audio": ["line-abc"] },
+      { "text": "Hello, hello!", "audio": ["line-hello-hello"] },
+      { "text": "A, B, C!", "audio": ["line-abc"] },
+      { "text": "Clap, clap, clap!", "audio": ["line-clap"] }
+    ]
+  },
+  {
+    "id": "one-two-three",
+    "title": "숫자 챈트",
+    "lines": [
+      { "text": "One, two, three!", "audio": ["line-123"] },
+      { "text": "Jump, jump, jump!", "audio": ["line-jump"] },
+      { "text": "One, two, three!", "audio": ["line-123"] },
+      { "text": "Smile!", "audio": ["line-smile"] }
+    ]
+  },
+  {
+    "id": "bye-bye",
+    "title": "빠이빠이 챈트",
+    "lines": [
+      { "text": "Bye, bye, letters!", "audio": ["line-bye-letters"] },
+      { "text": "See you soon!", "audio": ["line-see-you"] },
+      { "text": "Bye, bye!", "audio": ["line-bye-bye"] }
+    ]
+  }
+]

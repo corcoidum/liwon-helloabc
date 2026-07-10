@@ -9,6 +9,7 @@ import { MatchCards } from '../activities/MatchCards'
 import { SortGame } from '../activities/SortGame'
 import { ChantPlay } from '../activities/ChantPlay'
 import { Screen, ScreenTitle } from '../components/ui'
+import { letterStyle } from '../utils/colors'
 import type { ApplyFn } from './LessonRunner'
 
 function BackRow(props: { onBack: () => void }) {
@@ -44,6 +45,7 @@ export function TraceFree(props: { apply: ApplyFn; onBack: () => void }) {
   return (
     <Screen testId="trace-free">
       <ScreenTitle icon="✍️" text="따라 쓰기" />
+      <p className="hint-line">쓰고 싶은 글자를 골라요</p>
       <div className="button-row">
         <button
           type="button"
@@ -62,7 +64,7 @@ export function TraceFree(props: { apply: ApplyFn; onBack: () => void }) {
       </div>
       <div className="letter-picker">
         {ALPHABET.map((l) => (
-          <button key={l} type="button" onClick={() => setGlyph(l)}>
+          <button key={l} type="button" style={letterStyle(l)} onClick={() => setGlyph(l)}>
             {lowercase ? l.toLowerCase() : l}
           </button>
         ))}

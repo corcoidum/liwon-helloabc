@@ -1,0 +1,12 @@
+[
+  { "id": "hello", "text": "Hello!", "ko": "안녕!", "emoji": "👋" },
+  { "id": "bye", "text": "Bye!", "ko": "잘 가!", "emoji": "🙋" },
+  { "id": "thank-you", "text": "Thank you.", "ko": "고마워요.", "emoji": "🙏" },
+  { "id": "how-are-you", "text": "How are you?", "ko": "잘 지내요?", "emoji": "🤗" },
+  { "id": "good-morning", "text": "Good morning!", "ko": "좋은 아침!", "emoji": "🌞" },
+  { "id": "i-like-apples", "text": "I like apples.", "ko": "나는 사과를 좋아해요.", "emoji": "🍎" },
+  { "id": "it-is-red", "text": "It is red.", "ko": "이건 빨간색이에요.", "emoji": "🔴" },
+  { "id": "i-see-a-cat", "text": "I see a cat.", "ko": "고양이가 보여요.", "emoji": "🐱" },
+  { "id": "this-is-my-mom", "text": "This is my mom.", "ko": "우리 엄마예요.", "emoji": "👩" },
+  { "id": "one-two-three", "text": "One, two, three!", "ko": "하나, 둘, 셋!", "emoji": "🔢" }
+]

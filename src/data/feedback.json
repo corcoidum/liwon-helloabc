@@ -1,0 +1,12 @@
+[
+  { "id": "good-job", "text": "잘했어요!" },
+  { "id": "great", "text": "참 잘했어요!" },
+  { "id": "found-it", "text": "딩동댕! 잘 찾았어요" },
+  { "id": "try-again", "text": "괜찮아요, 한 번 더 들어볼까요?" },
+  { "id": "nice-writing", "text": "멋지게 썼어요!" },
+  { "id": "good-try", "text": "잘 해봤어요!" },
+  { "id": "found-pair", "text": "짝을 찾았어요!" },
+  { "id": "correct", "text": "맞았어요!" },
+  { "id": "repeat-after", "text": "따라 말해 보세요" },
+  { "id": "session-end", "text": "오늘 영어 놀이는 여기까지예요. 다음에 또 만나요!" }
+]

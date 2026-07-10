@@ -33,7 +33,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
+        // wav: bundled speech clips, ttf: Jua font — both needed offline
+        globPatterns: ['**/*.{js,css,html,png,svg,woff2,ttf,wav}'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         navigateFallback: 'index.html',
       },
     }),

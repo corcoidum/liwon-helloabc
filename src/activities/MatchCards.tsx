@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react'
 import { mainWord } from '../data/words'
 import { shuffle } from '../services/session'
-import { speakEnglish, speakKorean } from '../services/speech'
+import { sayKo, sayLetterName, sayWord } from '../services/sound'
+import { letterStyle } from '../utils/colors'
 import { Praise } from '../components/ui'
 
 interface Card {
   id: string
   pair: string
   face: string
+  isWord: boolean
   done: boolean
 }
 
@@ -16,11 +18,12 @@ export type MatchMode = 'case' | 'word'
 export function buildCards(letters: string[], mode: MatchMode): Card[] {
   const cards: Card[] = []
   for (const letter of letters) {
-    cards.push({ id: `${letter}-a`, pair: letter, face: letter, done: false })
+    cards.push({ id: `${letter}-a`, pair: letter, face: letter, isWord: false, done: false })
     cards.push({
       id: `${letter}-b`,
       pair: letter,
       face: mode === 'case' ? letter.toLowerCase() : mainWord(letter).emoji,
+      isWord: mode === 'word',
       done: false,
     })
   }
@@ -43,7 +46,7 @@ export function MatchCards(props: {
 
   const tap = (card: Card) => {
     if (card.done || allDone) return
-    void speakEnglish(props.mode === 'word' && card.face !== card.pair ? mainWord(card.pair).word : card.pair)
+    void (card.isWord ? sayWord(mainWord(card.pair)) : sayLetterName(card.pair))
     if (selected === null) {
       setSelected(card.id)
       setHint(null)
@@ -57,7 +60,7 @@ export function MatchCards(props: {
         prev.map((c) => (c.pair === card.pair ? { ...c, done: true } : c)),
       )
       props.onPair?.(card.pair, true)
-      void speakKorean('짝을 찾았어요!')
+      void sayKo('found-pair')
     } else {
       setHint('괜찮아요, 다시 찾아봐요')
       props.onPair?.(first.pair, false)
@@ -75,6 +78,7 @@ export function MatchCards(props: {
             type="button"
             className={`match-card ${card.done ? 'done' : ''} ${selected === card.id ? 'selected' : ''}`}
             data-pair={card.pair}
+            style={letterStyle(card.pair)}
             onClick={() => tap(card)}
           >
             {card.face}

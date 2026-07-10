@@ -29,6 +29,23 @@ Object.defineProperty(window, 'speechSynthesis', {
   },
 })
 
+// jsdom cannot play media — a quiet stub makes playFile() fall back to the
+// fake TTS above without "not implemented" noise in test output.
+class FakeAudio {
+  src: string
+  onended: (() => void) | null = null
+  onerror: (() => void) | null = null
+  constructor(src: string) {
+    this.src = src
+  }
+  play(): undefined {
+    return undefined
+  }
+  pause(): void {}
+}
+
+Object.defineProperty(window, 'Audio', { writable: true, value: FakeAudio })
+
 beforeEach(() => {
   localStorage.clear()
 })

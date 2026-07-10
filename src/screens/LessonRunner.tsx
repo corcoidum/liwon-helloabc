@@ -14,6 +14,7 @@ import { TraceBoard } from '../activities/TraceBoard'
 import { MatchCards } from '../activities/MatchCards'
 import { SortGame } from '../activities/SortGame'
 import { SpeakAlong } from '../activities/SpeakAlong'
+import { PhrasePlay } from '../activities/PhrasePlay'
 import { ChantPlay } from '../activities/ChantPlay'
 import { EndScreen } from './EndScreen'
 
@@ -111,6 +112,8 @@ export function LessonRunner(props: {
           onNext={advance}
         />
       )
+    case 'phrase':
+      return <PhrasePlay phraseId={step.phraseId} onNext={advance} />
     case 'chant':
       return <ChantPlay chantId={step.chantId} onNext={advance} />
     case 'end':

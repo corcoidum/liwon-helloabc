@@ -6,6 +6,8 @@ import { LessonRunner } from './screens/LessonRunner'
 import { ParentArea } from './screens/ParentArea'
 import { ReviewScreen } from './screens/ReviewScreen'
 import { ChantFree, MatchFree, SortFree, TraceFree } from './screens/FreePlay'
+import { WordsFree } from './screens/WordsFree'
+import { PhraseFree } from './screens/PhraseFree'
 
 type Screen = 'home' | HomeTarget
 
@@ -30,6 +32,10 @@ export default function App() {
       return <LessonRunner data={data} apply={apply} onExit={goHome} />
     case 'trace':
       return <TraceFree apply={apply} onBack={goHome} />
+    case 'words':
+      return <WordsFree onBack={goHome} />
+    case 'phrases':
+      return <PhraseFree onBack={goHome} />
     case 'match':
       return <MatchFree data={data} apply={apply} onBack={goHome} />
     case 'sort':

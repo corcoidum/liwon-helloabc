@@ -1,42 +1,31 @@
 import type { Chant } from '../types'
+import chantsJson from './chants.json'
+import { letterInfo, ALPHABET } from './letters'
+import { mainWord } from './words'
 
 /**
- * Original short chants written for this app (no licensed lyrics).
- * Each chant is a handful of short lines spoken rhythmically by TTS,
- * finishing in well under 20 seconds.
+ * Base chants live in chants.json (original lines written for this app —
+ * no licensed lyrics). Letter chants are generated from the letter/word
+ * data so all 26 letters get a rhythm activity, reusing their audio clips.
  */
-export const CHANTS: Chant[] = [
-  {
-    id: 'abc-hello',
-    title: 'A B C 인사 챈트',
-    lines: ['A, B, C!', 'Hello, hello!', 'A, B, C!', 'Clap, clap, clap!'],
-  },
-  {
-    id: 'apple-ant',
-    title: 'A 소리 챈트',
-    lines: ['A, a, apple!', 'A, a, ant!', 'A, a, a!'],
-  },
-  {
-    id: 'ball-bear',
-    title: 'B 소리 챈트',
-    lines: ['B, b, ball!', 'B, b, bear!', 'B, b, b!'],
-  },
-  {
-    id: 'cat-car',
-    title: 'C 소리 챈트',
-    lines: ['C, c, cat!', 'C, c, car!', 'C, c, c!'],
-  },
-  {
-    id: 'one-two-three',
-    title: '숫자 챈트',
-    lines: ['One, two, three!', 'Jump, jump, jump!', 'One, two, three!', 'Smile!'],
-  },
-  {
-    id: 'bye-bye',
-    title: '마무리 챈트',
-    lines: ['Bye, bye, letters!', 'See you soon!', 'Bye, bye!'],
-  },
-]
+export const BASE_CHANTS: Chant[] = chantsJson
+
+export function letterChant(letter: string): Chant {
+  const L = letter.toUpperCase()
+  const info = letterInfo(L)
+  const word = mainWord(L)
+  const line = {
+    text: `${L}, ${info.soundText}, ${word.word}!`,
+    audio: [`letter-${L}`, `sound-${L}`, `word-${word.id}`],
+  }
+  return {
+    id: `letter-${L}`,
+    title: `${L} 소리 챈트 ${word.emoji}`,
+    lines: [line, line, { text: `${word.word}! ${word.emoji}`, audio: [`word-${word.id}`] }],
+  }
+}
+
+export const CHANTS: Chant[] = [...BASE_CHANTS, ...ALPHABET.map(letterChant)]
 
 export function chantById(id: string): Chant {
   const found = CHANTS.find((c) => c.id === id)
@@ -44,16 +33,8 @@ export function chantById(id: string): Chant {
   return found
 }
 
-/** Pick a chant for a session, preferring one that features a studied letter. */
+/** Pick a chant for a session, preferring the first studied letter's chant. */
 export function chantForLetters(letters: string[]): Chant {
-  const byLetter: Record<string, string> = {
-    A: 'apple-ant',
-    B: 'ball-bear',
-    C: 'cat-car',
-  }
-  for (const l of letters) {
-    const id = byLetter[l.toUpperCase()]
-    if (id) return chantById(id)
-  }
+  if (letters.length > 0) return letterChant(letters[0])
   return chantById('abc-hello')
 }

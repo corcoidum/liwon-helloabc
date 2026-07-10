@@ -22,6 +22,7 @@ describe('session builder', () => {
     expect(types[types.length - 1]).toBe('end')
     expect(types).toContain('chant')
     expect(types).toContain('speak')
+    expect(types).toContain('phrase')
   })
 
   it('puts review of struggling letters before new content', () => {

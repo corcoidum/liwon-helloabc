@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { speakKorean } from '../services/speech'
+import { sayKo } from '../services/sound'
 import { Screen } from '../components/ui'
 
 /**
@@ -8,7 +8,7 @@ import { Screen } from '../components/ui'
  */
 export function EndScreen(props: { newLetters: string[]; onHome: () => void }) {
   useEffect(() => {
-    void speakKorean('오늘 영어 놀이는 여기까지예요. 다음에 또 만나요!')
+    void sayKo('session-end')
   }, [])
 
   return (
